@@ -6,6 +6,7 @@ This repository accompanies *Programming Persistent Memory - A Comprehensive Gui
 ![Cover image](FrontCover.png)
 
 Download the files as a zip using the green button, or clone the repository to your machine using Git.
+Textbook Link: [https://link.springer.com/content/pdf/10.1007/978-1-4842-4932-1.pdf](https://link.springer.com/content/pdf/10.1007/978-1-4842-4932-1.pdf)
 
 ## Releases
 

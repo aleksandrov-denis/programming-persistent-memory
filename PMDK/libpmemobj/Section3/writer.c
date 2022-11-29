@@ -10,14 +10,13 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 	
-	PMEMobjpool *pop = pmemobj_create(argv[1], LAYOUT_NAME, PMEMOBJ_MIN_POOL, 0666);
+	PMEMobjpool *pop = pmemobj_create(argv[1], POBJ_LAYOUT_NAME(string_store), PMEMOBJ_MIN_POOL, 0666);
 	if (pop == NULL) {
 		perror("pmemobj_create");
 		return 1;
 	}
 
-	PMEMoid root = pmemobj_root(pop, sizeof (struct my_root));
-	struct my_root *rootp = pmemobj_direct(root);
+	TOID(struct my_root) root = POBJ_ROOT(pop, struct my_root);
 
 	char my_buf[MAX_BUF_LEN] = {0};
 	if(scanf("%9s", my_buf) == EOF) {
@@ -25,10 +24,8 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-
 	TX_BEGIN(pop) {
-		pmemobj_tx_add_range(root, 0, sizeof (struct my_root));
-		memcpy(rootp->buf, my_buf, strlen(my_buf));
+		TX_MEMCPY(D_RW(root)->buf, my_buf, strlen(my_buf));
 	} TX_END
 
 	pmemobj_close(pop);
